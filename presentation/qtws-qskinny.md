@@ -16,6 +16,14 @@ footer: [https://github.com/uwerat/qskinny](https://github.com/uwerat/qskinny)
 - [@peha23](https://twitter.com/peha23) on Twitter
 - founder of [edelhirsch.io](https://www.edelhirsch.io)
 
+^ I'm not the founder of QSkinny though
+
+---
+
+![inline](AGCO-Ui.jpeg)
+
+image © AGCO GmbH
+
 ---
 
 # [fit] Why
@@ -25,14 +33,12 @@ footer: [https://github.com/uwerat/qskinny](https://github.com/uwerat/qskinny)
 
 # Why create QSkinny?
 
-[remove - QtWidgets: only software rendering
-- QtQuickControls 1: performance issues
-- QtQuickControls 2: only extensible from QML]
-- ### performance: TQC: replacing QML with C++ in controls (QQC1 -> QQC2); same solution is true for application code; let programmer decide what to write in QML and what in C++
-- C++: no bridging to QML needed
-- C++ tooling, debugging etc.
-- C++: personal preference
-- performance (startup, memory, property binding changes (deferred updates etc.)?
+- performance
+- pure C++
+
+^ performance (1): TQC: replacing QML with C++ in controls (QQC1 -> QQC2). Same solution is true for application code. let programmer decide what to write in QML and what in C++. We're going to see later: QQC2 are not really extensible.
+^ performance (2): startup, memory, property binding changes (deferred updates etc.). Quite some work on QML is going into making it faster (QML compiler, direct binding etc.). With C++/QSkinny there is not much overhead to begin with.
+^ C++ no bridging to QML needed, tooling (address sanitizers, refactoring, other IDEs except QtCreator, auto test coverage, static code checkers), debugging etc., personal preference. Quite some work from the Qt Company is going into tooling for QML; with C++ you get this for free.
 
 ^ ... as in: Why was it created?
 ^ Qt 5.3: V4 not fast enough
@@ -49,11 +55,12 @@ footer: [https://github.com/uwerat/qskinny](https://github.com/uwerat/qskinny)
 - public C++ API
 - usable from QML
 - runs with Qt 5.6 (LGPLv2)
-- [free software (LGPLv2; MIT/BSD in the future?)]
 
 ^ QSkinny and QML are not mutually exclusive, programmer can decide how much of each he/she wants (including no QML)
 ^ mix and match C++/QML
 ^ LGPLv2: works with Qt 5.6; not much new on the C++ side (except Vulkan / shapes)
+^ QSkinny is free software (LGPLv2; maybe MIT/BSD in the future)
+^ However: It is not a general purpose toolkit yet, many controls were created to match the use case of the project
 
 ---
 
@@ -66,7 +73,6 @@ footer: [https://github.com/uwerat/qskinny](https://github.com/uwerat/qskinny)
 
 ![inline](QSkinny.png)
 
-^ maybe 2 diagrams? Qsk / QML and QSkinny / QtWidgets
 ^ Qsk / SG: synchronisation points, QtWidgets doesn't have those
 
 ---
@@ -75,15 +81,20 @@ footer: [https://github.com/uwerat/qskinny](https://github.com/uwerat/qskinny)
 
 ```c++
     QskWindow window;
+
+    auto button = new QskPushButton("push me");
+    auto label = new QskTextLabel("label");
     auto box = new QskLinearBox(Qt::Vertical);
-    auto button = new QskPushButton("push me", box);
-    auto label = new QskTextLabel("label", box);
+
+    box.addItem(button);
+    box.addItem(label);
+
     window.addItem(box);
     window.show();
 ```
 
 ^ QSkinny does not only offer a C++ API, it also offers:
-^ a more complete layouting system similar to the one of QtWidgets (QSizePolicy); QML is mostly anchoring
+^ a more complete layouting system similar to the one of QtWidgets (QSizePolicy); QML is mostly anchoring. Problem with only anchoring: There is no central component that can lay out elements, also: Android (ConstraintLayout) and Apple (Auto Layout) nowadays have a constraint-based layout, and advise against hardcoding widths etc. Why? To enable different form factors; so: anchoring might be enough, but maybe not always.
 ^ size constraints (widthForHeight() etc.)
 ^ ### create box later, call addItem() 2x to demonstrate
 
@@ -150,3 +161,5 @@ T.PageIndicator {
 
 [support@qskinny.org](mailto:support@qskinny.org)
 [peter@edelhirsch.io](mailto:peter@edelhirsch.io)
+
+^ Again: Not to bash QML, but some constructive criticism is in place. The UI written with QSkinny is blazingly fast and is going into production soon, so another way is definitely possible.
