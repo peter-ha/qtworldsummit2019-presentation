@@ -25,13 +25,20 @@ footer: [https://github.com/uwerat/qskinny](https://github.com/uwerat/qskinny)
 
 # Why create QSkinny?
 
-- QtWidgets: only software rendering
+[remove - QtWidgets: only software rendering
 - QtQuickControls 1: performance issues
-- QtQuickControls 2: not extensible
+- QtQuickControls 2: only extensible from QML]
+- ### performance: TQC: replacing QML with C++ in controls (QQC1 -> QQC2); same solution is true for application code; let programmer decide what to write in QML and what in C++
+- C++: no bridging to QML needed
+- C++ tooling, debugging etc.
+- C++: personal preference
+- performance (startup, memory, property binding changes (deferred updates etc.)?
 
 ^ ... as in: Why was it created?
-^ Qt 5.4: not fast enough
+^ Qt 5.3: V4 not fast enough
+^ team background: QtWidgets and C++; QML was new
 ^ QtQuickControls 1: performance issues (all in QML, now deprecated)
+^ QQC2: solution was to use C++ => too much QML can easily be a problem for performance.
 ^ QtQuickControls 2: not extensible (font, palette, locale / some of its logic is in QML)
 ^ => try how far you can get with own framework
 
@@ -41,11 +48,12 @@ footer: [https://github.com/uwerat/qskinny](https://github.com/uwerat/qskinny)
 
 - public C++ API
 - usable from QML
-- free software (LGPLv2)
+- runs with Qt 5.6 (LGPLv2)
+- [free software (LGPLv2; MIT/BSD in the future?)]
 
 ^ QSkinny and QML are not mutually exclusive, programmer can decide how much of each he/she wants (including no QML)
 ^ mix and match C++/QML
-^ LGPLv2: works with Qt 5.6	
+^ LGPLv2: works with Qt 5.6; not much new on the C++ side (except Vulkan / shapes)
 
 ---
 
@@ -57,6 +65,9 @@ footer: [https://github.com/uwerat/qskinny](https://github.com/uwerat/qskinny)
 ### A lightweight framework on top of the Qt scene graph
 
 ![inline](QSkinny.png)
+
+^ maybe 2 diagrams? Qsk / QML and QSkinny / QtWidgets
+^ Qsk / SG: synchronisation points, QtWidgets doesn't have those
 
 ---
 
@@ -74,6 +85,7 @@ footer: [https://github.com/uwerat/qskinny](https://github.com/uwerat/qskinny)
 ^ QSkinny does not only offer a C++ API, it also offers:
 ^ a more complete layouting system similar to the one of QtWidgets (QSizePolicy); QML is mostly anchoring
 ^ size constraints (widthForHeight() etc.)
+^ ### create box later, call addItem() 2x to demonstrate
 
 ---
 
@@ -84,6 +96,10 @@ setMetric( QskSlider::Panel | QskAspect::Size, 20 );
 setColor( QskPushButton::Text, QColor( Qt::green ) );
 setAnimation( SoundControl::SliderControl | QskAspect::Color, duration );
 ```
+
+^ ### AGCO: more flexibility wrt. styling, not only colours and metrics, but also handles etc. example checkbox: Haken vs. switch; hard to do in QML
+^ ### controls werden durch delegates gezeichnet; delegates können ausgetauscht werden -> Diagramm
+^ theming: 2 Stufen: 1. metrics / colors / animations, 2. Skinlets (delegates)
 
 ---
 
@@ -109,6 +125,9 @@ QSGNode* QskPageIndicatorSkinlet::updateBulletsNode(
 ```
 
 ^ QskPageIndicator: one QObjects, one scene graph node per bullet; derives from QQuickItem; method above is called from updatePaintNode
+
+^ ###: eher: Vgl. Anzahl QQuickItems und Szenengraphenknoten etc.
+^ Vgl nicht ganz fair
 
 ---
 
