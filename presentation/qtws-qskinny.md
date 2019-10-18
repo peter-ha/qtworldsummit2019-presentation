@@ -1,5 +1,5 @@
 theme: QtDay 2019
-footer: [https://github.com/uwerat/qskinny](https://github.com/uwerat/qskinny)
+footer: [https://github.com/uwerat/qskinny](https://github.com/uwerat/qskinny) ### here EH logo
 
 
 # [fit] QSkinny - A new approach
@@ -24,7 +24,9 @@ footer: [https://github.com/uwerat/qskinny](https://github.com/uwerat/qskinny)
 
 image © AGCO GmbH
 
-^ IC, 2 windows, one Android tablet
+^ IC, 2 screens on Embedded Linux, one Android tablet that is also running QSkinny
+^ QSKinny is not a proof of concept or study, but it is going into production as we speak. 
+^ Unfortunately we cannot show more; you can see more at Agritecnica
 
 ---
 
@@ -62,10 +64,9 @@ image © AGCO GmbH
 
 ^ QSkinny and QML are not mutually exclusive, programmer can decide how much of each he/she wants (including no QML)
 ^ mix and match C++/QML
-^ LGPLv2: works with Qt 5.6; not much new on the C++ side (except Vulkan / shapes)
-^ QSkinny is free software (LGPLv2; maybe MIT/BSD in the future). eglfs: Qt 5.6 works well, and LGPLv2 can be used.
-^ However: It is not a general purpose toolkit yet, many controls were created to match the use case of the project
-^ Using 5.6? If somebody is only interested in C++, not QML: Qt5 doesn't offer that much more.
+^ LGPLv2: works with Qt 5.6; not much new on the C++ side (except Vulkan / shapes). The tractor UI shown before is using QSkinny on top of Qt 5.6.
+^ QSkinny is free software (LGPLv2; maybe MIT/BSD in the future). When using eglfs: Qt 5.6 works well, and LGPLv2 can be used. Also, when only using C++ part (not QML), after 5.6 there wasn't that much new (exception: Vulkan / Metal etc. backends).
+^ However: It is not a general purpose toolkit yet, many controls were created to match the use case of the project.
 
 ---
 
@@ -79,7 +80,7 @@ image © AGCO GmbH
 ![inline](QSkinny.png)
 
 ^ Qsk / SG: synchronisation points, QtWidgets doesn't have those
-^ raster paint engine: There is also X11 and OpenGL paint engine
+^ raster paint engine: There is also X11 paint engine and in Qt4 OpenGL paint engine
 
 ---
 
@@ -95,39 +96,36 @@ image © AGCO GmbH
     box.addItem(label);
 
     QskWindow window;
-
     window.addItem(box);
     window.show();
 ```
 
 ^ ### leave Window out? Add QML equivalent? ggf. screenshot or show program?
-^ ### mention layout stuff later:
-^ QSkinny does not only offer a C++ API, it also offers:
-^ a more complete layouting system similar to the one of QtWidgets (QSizePolicy); QML is mostly anchoring. Problem with only anchoring: There is no central component that can lay out elements, also: Android (ConstraintLayout) and Apple (Auto Layout) nowadays have a constraint-based layout, and advise against hardcoding widths etc. Why? To enable different form factors; so: anchoring might be enough, but maybe not always.
-^ size constraints (widthForHeight() etc.)
-
----
-
-# separation of implementation and styling
-
-```
-setMetric( QskSlider::Panel | QskAspect::Size, 20 );
-setColor( QskPushButton::Text, QColor( Qt::green ) );
-setAnimation( SoundControl::SliderControl | QskAspect::Color, duration );
-```
-
-^ ### AGCO: more flexibility wrt. styling, not only colours and metrics, but also handles etc. example checkbox: Haken vs. switch; hard to do in QML
-^ ### here diagram (ggf. hints weglassen, nur erklären: hints sind wie properties)
-^ ### controls werden durch delegates gezeichnet; delegates können ausgetauscht werden -> Diagramm
-^ theming: 2 Stufen: 1. metrics / colors / animations, 2. Skinlets (delegates)
-^ TQC also thinks about styling in C++
-^ styling is extensible
-^ ### ggf. mycontrols example zeigen als Anwendungsfall? auch overlay modus zeigen!
 
 ---
 
 # [fit] How
 # [fit] does QSkinny work?
+
+---
+
+# separation of implementation and styling: classes
+
+![inline](styling-classes.png)
+
+^ AGCO: more flexibility wrt. styling, not only colours and metrics, but also handles etc. example checkbox: Haken vs. switch; hard to do in QML
+^ in addition there are hints (e.g. colors, metrics etc.) that are like properties
+^ theming: 2 Stufen: 1. metrics / colors / animations, 2. Skinlets (delegates)
+^ TQC also thinks about styling in C++
+^ styling is extensible
+
+---
+
+# separation of implementation and styling: flow
+
+![inline](styling-flow.png)
+
+^ here show mycontrols example (including overlay modus)
 
 ---
 
@@ -172,8 +170,8 @@ T.PageIndicator {
 
 # Thanks!
 
-[support@qskinny.org](mailto:support@qskinny.org)
-[peter@edelhirsch.io](mailto:peter@edelhirsch.io)
+## [peter@edelhirsch.io](mailto:peter@edelhirsch.io)
+## [support@qskinny.org](mailto:support@qskinny.org)
 
 ^ Again: Not to bash QML, but some constructive criticism is in order. The UI written with QSkinny is blazingly fast and is going into production soon, so another way is definitely possible.
-^ every QML project so far showed performance problem.
+^ every QML project I worked on so far showed performance problems (startup / memory usage (especially multi-process) / loading QML components with Loaders).
