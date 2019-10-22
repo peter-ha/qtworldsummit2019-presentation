@@ -1,5 +1,5 @@
 theme: QtDay 2019
-footer: [https://github.com/uwerat/qskinny](https://github.com/uwerat/qskinny) ### here EH logo
+footer: ![right 20%](edelhirsch-logo.png)
 
 
 # [fit] QSkinny - A new approach
@@ -38,7 +38,7 @@ image © AGCO GmbH
 # Why create QSkinny?
 
 - performance / memory usage
-- freedom of choice (including pure C++)
+- freedom of choice between QML / C++ (including pure C++)
 
 ^ performance (1): TQC: replacing QML with C++ in controls (QQC1 -> QQC2). Same solution is true for application code. let programmer decide what to write in QML and what in C++. We're going to see later: QQC2 are not really extensible (QQuickControl class is private).
 ^ performance (2): startup, memory, property binding changes (deferred updates etc.). Quite some work on QML is going into making it faster (QML compiler, direct binding etc.). With C++/QSkinny there is not much overhead to begin with.
@@ -109,7 +109,7 @@ image © AGCO GmbH
 
 ---
 
-# separation of implementation and styling: classes
+### separation of implementation and styling: classes
 
 ![inline](styling-classes.png)
 
@@ -121,7 +121,7 @@ image © AGCO GmbH
 
 ---
 
-# separation of implementation and styling: flow
+## separation of implementation and styling: flow
 
 ![inline](styling-flow.png)
 
@@ -129,49 +129,63 @@ image © AGCO GmbH
 
 ---
 
-# example: QskPageIndicator
-
-// ### eher den Code hier rauslassen und nur die Zahlen zeigen bzw. den Baum (-> QskObjectCounter in examples):
-// TODO: here picture of page indicator
+# example: QSkinny page indicator
 
 ```
-QSGNode* QskPageIndicatorSkinlet::updateBulletsNode(
-    const QskPageIndicator* indicator, QSGNode* node ) const
+--- user code:
+
+auto* pageIndicator = new QskPageIndicator();
+pageIndicator->setCurrentIndex( 0 );
+pageIndicator->setCount( 5 );
+
+--- internal:
+
+for ( int i = 0; i < indicator->count(); i++ )
 {
-    for ( int i = 0; i < indicator->count(); i++ )
-    {
-        bulletNode = new QskBoxNode();
-        (...)
-    }
+    bulletNode = new QskBoxNode();
 }
 ```
 
-^ QskPageIndicator: one QObjects, one scene graph node per bullet; derives from QQuickItem; method above is called from updatePaintNode
+---
 
-^ ###: eher: Vgl. Anzahl QQuickItems und Szenengraphenknoten etc.
-^ Vgl nicht ganz fair
+![inline](nodes-qskinny.png)
 
 ---
 
-# QtQuickControls2 PageIndicator
+# example: QML page indicator
 
 ```
+--- user code:
+
+PageIndicator {
+    currentIndex: 0
+    count: 5
+}
+
+--- internal:
+
 T.PageIndicator {
-    (...)
     delegate: Rectangle {
-        (...)
     }
 }
 ```
 
 ^ each bullet is one QQuickItem (fine for page indicator, but think e.g. gradient stop or list view etc.)
 
+^ QskPageIndicator: one QObjects, one scene graph node per bullet; derives from QQuickItem; method above is called from updatePaintNode
+
+---
+
+![inline](nodes-qml.png)
+
 ---
 
 # Thanks!
 
-## [peter@edelhirsch.io](mailto:peter@edelhirsch.io)
-## [support@qskinny.org](mailto:support@qskinny.org)
+[https://github.com/uwerat/qskinny](https://github.com/uwerat/qskinny)
+
+[peter@edelhirsch.io](mailto:peter@edelhirsch.io)
+[support@qskinny.org](mailto:support@qskinny.org)
 
 ^ Again: Not to bash QML, but some constructive criticism is in order. The UI written with QSkinny is blazingly fast and is going into production soon, so another way is definitely possible.
 ^ every QML project I worked on so far showed performance problems (startup / memory usage (especially multi-process) / loading QML components with Loaders).

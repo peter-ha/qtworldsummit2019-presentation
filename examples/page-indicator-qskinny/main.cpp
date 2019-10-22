@@ -1,23 +1,20 @@
-#include <QGuiApplication>
-#include <QQmlApplicationEngine>
-#include <QskObjectCounter.h>
 #include <QskWindow.h>
-#include <QskPageIndicator.h>
+#include <QskTextLabel.h>
+#include <QskSetup.h>
 
-int main(int argc, char *argv[])
+#include <QGuiApplication>
+
+int main( int argc, char* argv[] )
 {
-    QskObjectCounter counter( true );
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QGuiApplication app( argc, argv );
 
-    QGuiApplication app(argc, argv);
+    auto* label = new QskTextLabel("bla");
 
-    QskPageIndicator pageIndicator;
-    pageIndicator.setCurrentIndex( 0 );
-    pageIndicator.setCount( 5 );
+    qskSetup->setSkin("");
 
     QskWindow window;
-    window.addItem( &pageIndicator );
-    window.resize( 640, 480 );
+    //window.addItem( label );
+    //window.resize( 600, 600 );
     window.show();
 
     return app.exec();
