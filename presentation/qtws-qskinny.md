@@ -6,6 +6,7 @@ footer: ![right 20%](edelhirsch-logo.png)
 # [fit] for a QtQuick framework
 
 ^ 3 sections in this talk: Why, What and How (Is this yet another set of controls?)
+^ This is not the usual "Just another set of controls" talk
 
 ---
 
@@ -26,7 +27,7 @@ image © AGCO GmbH
 
 ^ IC, 2 screens on Embedded Linux, one Android tablet that is also running QSkinny
 ^ QSKinny is not a proof of concept or study, but it is going into production as we speak. 
-^ Unfortunately we cannot show more; you can see more at Agritecnica
+^ Unfortunately we cannot show more; you can see more at Agritecnica in 2 weeks
 
 ---
 
@@ -60,7 +61,7 @@ image © AGCO GmbH
 
 - public C++ API
 - usable from QML
-- runs with Qt >= 5.6
+- LGPL version 2
 
 ^ QSkinny and QML are not mutually exclusive, programmer can decide how much of each he/she wants (including no QML)
 ^ mix and match C++/QML
@@ -129,7 +130,9 @@ image © AGCO GmbH
 
 ---
 
-# example: QSkinny page indicator
+## example: QSkinny page indicator
+
+![right 170%](page-indicator-qskinny-screenshot.png)
 
 ```
 --- user code:
@@ -153,6 +156,8 @@ for ( int i = 0; i < indicator->count(); i++ )
 ---
 
 # example: QML page indicator
+
+![right 170%](page-indicator-qml-screenshot.png)
 
 ```
 --- user code:
@@ -183,6 +188,8 @@ T.PageIndicator {
 # Thanks!
 
 [https://github.com/uwerat/qskinny](https://github.com/uwerat/qskinny)
+
+[https://github.com/peter-ha/qtworldsummit2019-presentation](https://github.com/peter-ha/qtworldsummit2019-presentation)
 
 [peter@edelhirsch.io](mailto:peter@edelhirsch.io)
 [support@qskinny.org](mailto:support@qskinny.org)
